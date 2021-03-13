@@ -23,7 +23,15 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigate
+import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.ui.theme.MyTheme
+import com.example.androiddevchallenge.views.home.HomeScene
+import com.example.androiddevchallenge.views.homescroll.DetailsScene
+import com.example.androiddevchallenge.views.login.LoginScene
+import com.example.androiddevchallenge.views.welcome.WelcomeScene
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,8 +47,26 @@ class MainActivity : AppCompatActivity() {
 // Start building your app here!
 @Composable
 fun MyApp() {
-    Surface(color = MaterialTheme.colors.background) {
-        Text(text = "Ready... Set... GO!")
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "welcome") {
+        composable("welcome") {
+            WelcomeScene {
+                navController.navigate("login")
+            }
+        }
+        composable("login") {
+            LoginScene {
+                navController.navigate("home")
+            }
+        }
+        composable("home") {
+            HomeScene{
+                navController.navigate("details")
+            }
+        }
+        composable("details") {
+            DetailsScene()
+        }
     }
 }
 
